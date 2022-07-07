@@ -1,0 +1,25 @@
+{
+    "name": "project1",
+    "version": "1.0.0",
+    "main": "./build/src/server.js",
+    "exports": "./build/src/server.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "rm -rf ./build/* && tsc -p tsconfig.json",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "ts-node src/server.ts",
+        "start": "yarn nodemon --watch './src/**' --ext .ts --exec \"yarn build && node --inspect build/server.js\""
+    },
+    "dependencies": {
+        "@prisma/client": "^3.15.2",
+        "@types/node": "^18.0.0",
+        "fastify": "^4.1.0",
+        "prisma": "^3.15.2",
+        "transformalizer": "^1.1.3",
+        "ts-node": "^10.8.1",
+        "typescript": "^4.7.4"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.16"
+    }
+}

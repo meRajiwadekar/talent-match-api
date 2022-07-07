@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  // updatedAt DateTime @updatedAt @map("updated_at")
+
+  // relationships
+  accessTokens           AccessToken[]
+  rating Rating? @relation(fields: [ratingId],references:[id])
+  ratingId Int?
+
+
+  // fields
+  email           String    @unique
+  name            String?
+  phoneNumber     String?   @map("phone_number")
+  termsAcceptedAt DateTime? @map("terms_accepted_at")
+  timezone        String?
+}
+
+
+model Rating{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  //fields
+  score Int? @map("score")
+  comment String? @map("comment")
+
+  //relationships
+  user User[]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+model AccessToken{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // relationships
+  user User @relation(fields: [userId], references: [id])
+  userId Int @map("user_id")
+
+  // fields
+  value String
+  }
+
+model Job{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // fields
+  title String
+  description String
+  city String?
+  state String?
+  country String?
+  postalcode String?
+  displayUrl String?  @map("display_url")
+  applyUrl String? @map("apply_url")
+}
