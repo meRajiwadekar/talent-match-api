@@ -8,6 +8,8 @@ import users from "./routes/users";
 import jobs from "./routes/jobs";
 import ratings from "./routes/ratings";
 import userRatings from "./routes/user/ratings";
+import userEvents from "./routes/user/events";
+import userAgreements from "./routes/user/agreements";
 
 
 const JWT_SECRET = process.env.JWT_SECRET || '';
@@ -22,6 +24,8 @@ export default function registerApi(server : FastifyInstance){
 
         subroutes.register(async function authenticatedRoutes(subroutes : FastifyInstance){
             subroutes.register(user);
+            subroutes.register(userEvents);
+            subroutes.register(userAgreements);
             subroutes.register(userRatings);
         })
 

@@ -17,8 +17,9 @@ model User {
 
   // relationships
   accessTokens           AccessToken[]
-  rating Rating? @relation(fields: [ratingId],references:[id])
-  ratingId Int?
+  rating      Rating?    @relation(fields: [ratingId],references:[id])
+  events      Event[]
+  ratingId    Int?       
 
 
   // fields
@@ -29,6 +30,21 @@ model User {
   timezone        String?
 }
 
+model Event{
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // relationships
+  user User? @relation(fields: [userId], references: [id])
+  userId Int? @map("user_id")
+
+  // fields
+  clientUserId String? @map("client_user_id")
+  sourceUrl String? @map("source_url")
+  metadata Json?
+  name String
+}
 
 model Rating{
   id Int @id @default(autoincrement())
