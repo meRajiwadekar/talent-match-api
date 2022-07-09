@@ -8,7 +8,8 @@ const user_1 = __importDefault(require("./routes/user"));
 const health_1 = __importDefault(require("./routes/health"));
 const users_1 = __importDefault(require("./routes/users"));
 const jobs_1 = __importDefault(require("./routes/jobs"));
-const ratings_1 = __importDefault(require("./routes/user/ratings"));
+const ratings_1 = __importDefault(require("./routes/ratings"));
+const ratings_2 = __importDefault(require("./routes/user/ratings"));
 const JWT_SECRET = process.env.JWT_SECRET || '';
 function registerApi(server) {
     console.log("registerApi works!");
@@ -17,6 +18,7 @@ function registerApi(server) {
         console.log("Inside performancemonitoredRoutes!");
         subroutes.register(async function authenticatedRoutes(subroutes) {
             subroutes.register(user_1.default);
+            subroutes.register(ratings_2.default);
         });
         subroutes.register(async function unauthenticatedRoutes(subroutes) {
             subroutes.register(users_1.default);

@@ -23,11 +23,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const json_api_1 = __importStar(require("../../serializers/json-api"));
+const json_api_1 = __importStar(require("../serializers/json-api"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 async function default_1(server) {
-    server.post('/user/ratings', async function (request, reply) {
+    server.post('/ratings', async function (request, reply) {
         json_api_1.default.register({
             name: 'ratings',
             schema: {
@@ -36,18 +36,16 @@ async function default_1(server) {
                         return 'ratings';
                     },
                     id({ data }) {
-                        let id = data.userId || data.id;
-                        return id.toString();
+                        return data.id.toString();
                     },
                     untransformAttributes({ attributes }) {
                         return attributes;
                     },
                     attributes({ data }) {
-                        let attributes = {
+                        return {
                             score: data.score,
                             comment: data.comment
                         };
-                        return attributes;
                     },
                     relationships: {
                         user({ data, local }) {
@@ -82,19 +80,21 @@ async function default_1(server) {
                 }
             }
         });
-        let userId = request.userId;
-        let body = await request.body;
-        let { score, comment } = body.data.attributes;
+        let { userId, score, comment } = await request.body.data.attributes;
+        let data = {
+            score,
+            comment
+        };
+        if (userId) {
+            let userIdAsInt = Number(userId);
+            data.user = {
+                connect: {
+                    id: userIdAsInt
+                }
+            };
+        }
         let rating = await prisma.rating.create({
-            data: {
-                score,
-                comment,
-                // user: {
-                //     connect: {
-                //       id: userId
-                //     }
-                //   }
-            },
+            data,
             include: {
                 user: true
             }

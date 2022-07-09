@@ -45,7 +45,7 @@ async function default_1(server) {
         }
     });
     server.get('/users/:email', async function responder(request, reply) {
-        reply.send("userId works");
+        // reply.send("userId works");
         let email = request.params.email;
         let user = await prisma.user.findUnique({
             where: {

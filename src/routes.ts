@@ -6,7 +6,8 @@ import user from "./routes/user";
 import health from "./routes/health";
 import users from "./routes/users";
 import jobs from "./routes/jobs";
-import ratings from "./routes/user/ratings";
+import ratings from "./routes/ratings";
+import userRatings from "./routes/user/ratings";
 
 
 const JWT_SECRET = process.env.JWT_SECRET || '';
@@ -21,6 +22,7 @@ export default function registerApi(server : FastifyInstance){
 
         subroutes.register(async function authenticatedRoutes(subroutes : FastifyInstance){
             subroutes.register(user);
+            subroutes.register(userRatings);
         })
 
         subroutes.register(async function unauthenticatedRoutes(subroutes : FastifyInstance){

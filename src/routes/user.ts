@@ -64,7 +64,7 @@ export default async function (server: FastifyInstance){
             request : FastifyRequest<{Params : UserEmailParams, Querystring :QueryParams}>,
             reply : FastifyReply
         ) {
-            reply.send("userId works");
+            // reply.send("userId works");
             let email = request.params.email;
 
             let user = await prisma.user.findUnique({ 
