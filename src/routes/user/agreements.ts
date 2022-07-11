@@ -54,7 +54,10 @@ export default async function (server: FastifyInstance){
             }
         })
 
-        let userId = request.userId as number;
+        // let userId = request.userId as number;
+        // OR
+        let body = request.body as any;
+        let userId = body.data.attributes.userId;
         let user = await prisma.user.update({
             where: {
                 id : userId,
@@ -64,15 +67,15 @@ export default async function (server: FastifyInstance){
             }
         });
 
-        await prisma.event.create({
-            data:{
-                name : 'tos:accept',
-                userId,
-                metadata:{
-                    tiTermsAceepted : request.body.data.attributes.tiTermsAceepted
-                }
-            }
-        });
+        // await prisma.event.create({
+        //     data:{
+        //         name : 'tos:accept',
+        //         userId,
+        //         metadata:{
+        //             tiTermsAceepted : request.body.data.attributes.tiTermsAceepted
+        //         }
+        //     }
+        // });
 
         reply.code(201);
         return serializer.transform({

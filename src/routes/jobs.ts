@@ -12,6 +12,7 @@ type JobQuery = {
 }
 
 export default async function (server: FastifyInstance) {
+    
     server.get('/jobs/:id', async function responder(
         request: FastifyRequest<{ Params: JobParams }>,
         reply: FastifyReply
@@ -33,7 +34,8 @@ export default async function (server: FastifyInstance) {
                             title: data.title,
                             description: data.description,
                             displayUrl: data.displayUrl,
-                            applyUrl: data.applyUrl
+                            applyUrl: data.applyUrl,
+                            jobCreatedAt: data.createdAt,
                         }
                         return attributes;
                     }
@@ -51,6 +53,29 @@ export default async function (server: FastifyInstance) {
                 id: Number(request.params.id)
             }
         })
+
+        const past = await prisma.job.findUnique({
+            where: {
+                id: Number(request.params.id),
+            },
+            select: {
+                createdAt : true
+            }
+        })
+
+        
+        console.log(past);
+        
+        // console.log("::Expiry date::");
+        // const lastDate = new Date();
+        // lastDate.setDate(lastDate.getDate() + 60);
+        // console.log(lastDate.toString());
+
+        // function addDays(date, days) {
+        //     var result = new Date(date);
+        //     result.setDate(result.getDate() + days);
+        //     return result;
+        //   }
 
         if (!job) {
             reply.code(404);

@@ -24,7 +24,8 @@ async function default_1(server) {
                             title: data.title,
                             description: data.description,
                             displayUrl: data.displayUrl,
-                            applyUrl: data.applyUrl
+                            applyUrl: data.applyUrl,
+                            jobCreatedAt: data.createdAt,
                         };
                         return attributes;
                     }
@@ -40,6 +41,24 @@ async function default_1(server) {
                 id: Number(request.params.id)
             }
         });
+        const past = await prisma.job.findUnique({
+            where: {
+                id: Number(request.params.id),
+            },
+            select: {
+                createdAt: true
+            }
+        });
+        console.log(past);
+        // console.log("::Expiry date::");
+        // const lastDate = new Date();
+        // lastDate.setDate(lastDate.getDate() + 60);
+        // console.log(lastDate.toString());
+        // function addDays(date, days) {
+        //     var result = new Date(date);
+        //     result.setDate(result.getDate() + days);
+        //     return result;
+        //   }
         if (!job) {
             reply.code(404);
             return null;

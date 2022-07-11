@@ -81,11 +81,11 @@ export default async function (server: FastifyInstance) {
             data: {
                 score,
                 comment,
-                // user: {
-                //     connect: {
-                //       id: userId
-                //     }
-                //   }
+                user: {
+                    connect: {
+                      id: userId
+                    }
+                  }
              },
              include:{
                  user: true

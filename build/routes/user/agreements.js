@@ -63,7 +63,10 @@ async function default_1(server) {
                 }
             }
         });
-        let userId = request.userId;
+        // let userId = request.userId as number;
+        // OR
+        let body = request.body;
+        let userId = body.data.attributes.userId;
         let user = await prisma.user.update({
             where: {
                 id: userId,
@@ -72,15 +75,15 @@ async function default_1(server) {
                 termsAcceptedAt: new Date()
             }
         });
-        await prisma.event.create({
-            data: {
-                name: 'tos:accept',
-                userId,
-                metadata: {
-                    tiTermsAceepted: request.body.data.attributes.tiTermsAceepted
-                }
-            }
-        });
+        // await prisma.event.create({
+        //     data:{
+        //         name : 'tos:accept',
+        //         userId,
+        //         metadata:{
+        //             tiTermsAceepted : request.body.data.attributes.tiTermsAceepted
+        //         }
+        //     }
+        // });
         reply.code(201);
         return json_api_1.default.transform({
             name: 'agreements',

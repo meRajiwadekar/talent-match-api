@@ -89,11 +89,11 @@ async function default_1(server) {
             data: {
                 score,
                 comment,
-                // user: {
-                //     connect: {
-                //       id: userId
-                //     }
-                //   }
+                user: {
+                    connect: {
+                        id: userId
+                    }
+                }
             },
             include: {
                 user: true
