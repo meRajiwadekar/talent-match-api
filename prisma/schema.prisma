@@ -94,4 +94,5 @@ model Job{
   postalcode String?
   displayUrl String?  @map("display_url")
   applyUrl String? @map("apply_url")
+  delete_after DateTime
 }
